@@ -1,70 +1,87 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import {  StyleSheet,SafeAreaView,useColorScheme   } from 'react-native';
+import React, { useState } from 'react';
 
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import  Button  from '@/components/calculadora/Button';
+import Row from '@/components/calculadora/Row';
+import { calculator,initialState } from '@/scripts/calculadora/calculator';
 
-export default function HomeScreen() {
+
+export default function calculadoraScreen() {
+  const [state, setState] = useState(initialState);
+  const colorScheme = useColorScheme();
+
+  const handleTap = (type: string, value: string | number) => {
+    setState((prevState) => calculator(type, String(value), prevState));
+  };
+  const resultTextColor = colorScheme === 'dark' ? '#fff' : '#000';
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+    <ParallaxScrollView>
+      <ThemedView style={styles.container}>
+                <SafeAreaView>
+
+          <ThemedText style={[styles.result, { color: resultTextColor }]}>{parseFloat(state.currentValue).toLocaleString()}</ThemedText>
+
+          <Row>
+            <Button text="C" theme="secondary" onPress={() => handleTap('clear', '')} />
+            <Button text="+/-" theme="secondary" onPress={() => handleTap('posneg', '')} />
+            <Button text="%" theme="secondary" onPress={() => handleTap('percentage', '')} />
+            <Button text="/" theme="accent" onPress={() => handleTap('operator', '/')} />
+          </Row>
+
+          <Row>
+            <Button text="7" onPress={() => handleTap('number', 7)} />
+            <Button text="8" onPress={() => handleTap('number', 8)} />
+            <Button text="9" onPress={() => handleTap('number', 9)} />
+            <Button text="X" theme="accent" onPress={() => handleTap('operator', '*')} />
+          </Row>
+
+          <Row>
+            <Button text="4" onPress={() => handleTap('number', 4)} />
+            <Button text="5" onPress={() => handleTap('number', 5)} />
+            <Button text="6" onPress={() => handleTap('number', 6)} />
+            <Button text="-" theme="accent" onPress={() => handleTap('operator', '-')} />
+          </Row>
+
+          <Row>
+            <Button text="1" onPress={() => handleTap('number', 1)} />
+            <Button text="2" onPress={() => handleTap('number', 2)} />
+            <Button text="3" onPress={() => handleTap('number', 3)} />
+            <Button text="+" theme="accent" onPress={() => handleTap('operator', '+')} />
+          </Row>
+
+          <Row>
+            <Button text="0" onPress={() => handleTap('number', 0)} />
+            <Button text="." onPress={() => handleTap('number', '.')} />
+            <Button text="=" theme="accent" onPress={() => handleTap('equal', '=')} />
+          </Row>
+          </SafeAreaView>
+
       </ThemedView>
     </ParallaxScrollView>
   );
 }
 
+
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container:{
+
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  result: {
+    paddingTop: 20,
+    marginTop: 40,
+    fontSize: 42,
+    textAlign: 'right',
+    marginRight: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  value: {
+    color: '#fff',
+    fontSize: 42,
+    textAlign: 'right',
+    marginRight: 20,
+    marginBottom: 10,
   },
 });

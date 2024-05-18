@@ -17,7 +17,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Calculadora',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
           ),
@@ -26,11 +26,29 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Explore',
+          title: 'Herramientas',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'grid' : 'grid-outline'} color={color} />
           ),
         }}
+      />
+      <Tabs.Screen
+      name="prueba"
+      options={{
+        title: 'Juegos',
+        tabBarIcon: ({ color, focused }) => (
+          <TabBarIcon name={focused ? 'game-controller' : 'game-controller-outline'} color={color} />
+        ),
+      }}
+      />
+      <Tabs.Screen
+      name="aboutScreen"
+      options={{
+        title: 'Sobre Nostros ',
+        tabBarIcon: ({ color, focused }) => (
+          <TabBarIcon name={focused ? 'information-circle' : 'information-circle-outline'} color={color} />
+        ),
+      }}
       />
     </Tabs>
   );
