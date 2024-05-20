@@ -7,6 +7,7 @@ import { ThemedView } from '@/components/ThemedView';
 import  Button  from '@/components/calculadora/Button';
 import Row from '@/components/calculadora/Row';
 import { calculator,initialState } from '@/scripts/calculadora/calculator';
+import StaticView from '@/components/StaticView';
 
 
 export default function calculadoraScreen() {
@@ -21,7 +22,7 @@ export default function calculadoraScreen() {
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.container}>
-                <SafeAreaView>
+       
 
           <ThemedText style={[styles.result, { color: resultTextColor }]}>{parseFloat(state.currentValue).toLocaleString()}</ThemedText>
 
@@ -58,7 +59,6 @@ export default function calculadoraScreen() {
             <Button text="." onPress={() => handleTap('number', '.')} />
             <Button text="=" theme="accent" onPress={() => handleTap('equal', '=')} />
           </Row>
-          </SafeAreaView>
 
       </ThemedView>
     </ParallaxScrollView>

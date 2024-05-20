@@ -15,7 +15,7 @@ export default function TabLayout() {
         headerShown: false,
       }}>
       <Tabs.Screen
-        name="index"
+        name="indexT"
         options={{
           title: 'Calculadora',
           tabBarIcon: ({ color, focused }) => (
@@ -24,7 +24,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="utilsScreen"
         options={{
           title: 'Herramientas',
           tabBarIcon: ({ color, focused }) => (
@@ -33,7 +33,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-      name="prueba"
+      name="gamesScreen"
       options={{
         title: 'Juegos',
         tabBarIcon: ({ color, focused }) => (
@@ -44,7 +44,7 @@ export default function TabLayout() {
       <Tabs.Screen
       name="aboutScreen"
       options={{
-        title: 'Sobre Nostros ',
+        title: 'Sobre Nosotros ',
         tabBarIcon: ({ color, focused }) => (
           <TabBarIcon name={focused ? 'information-circle' : 'information-circle-outline'} color={color} />
         ),

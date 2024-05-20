@@ -20,14 +20,17 @@ export default function ParallaxScrollView({
 
 
   return (
+    
     <ThemedView style={styles.container}>
-      <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
+      <Animated.ScrollView ref={scrollRef} scrollEventThrottle={26}>
         <Animated.View
         style={styles.Header}>
         </Animated.View>
         <ThemedView style={styles.content}>{children}</ThemedView>
       </Animated.ScrollView>
     </ThemedView>
+   
+
   );
 }
 

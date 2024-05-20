@@ -5,6 +5,7 @@ import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import  Header  from '@/components/Header';
 
 const programmers = [
   {
@@ -27,7 +28,9 @@ const programmers = [
 
 export default function AboutScreen() {
   return (
+    
     <ParallaxScrollView>
+      <Header/>
       <ThemedView style={styles.container}>
         <ThemedText type="title">Sobre Nostros</ThemedText>
         {programmers.map((programmer, index) => (
