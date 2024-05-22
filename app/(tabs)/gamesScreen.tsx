@@ -15,15 +15,12 @@ export default function gamesScreen() {
         <ThemedText style={styles.buttonText}>Adivina el juego</ThemedText>
       </Link>
 
-      <Link href="Otro juego" style={[styles.button, styles.blueButton]}>
+      <Link href="games/acierta" style={[styles.button, styles.blueButton]}>
         <Ionicons name="play" size={24} color="white" />
-        <ThemedText style={styles.buttonText}>Otro juego</ThemedText>
+        <ThemedText style={styles.buttonText}>Acierta numeros</ThemedText>
       </Link>
 
-      <Link href="Otro juego más" style={[styles.button, styles.greenButton]}>
-        <Ionicons name="play" size={24} color="white" />
-        <ThemedText style={styles.buttonText}>Otro juego más</ThemedText>
-      </Link>
+     
     </ThemedView>
   );
 }

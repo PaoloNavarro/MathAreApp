@@ -9,19 +9,19 @@ export default function UtilsScreen() {
   return (
     <ThemedView style={styles.container}>
     <ThemedText type='title'>Menu de utilidades</ThemedText>
-      <Link href="utils/conversorU" style={[styles.button, styles.lightRedButton]}>
+      <Link href="utils/conversor" style={[styles.button, styles.lightRedButton]}>
         <Ionicons name="play" size={24} color="white" />
         <ThemedText style={styles.buttonText}>Conversor de Unidades</ThemedText>
       </Link>
 
-      <Link href="Otro juego" style={[styles.button, styles.lightBlueButton]}>
+      <Link href="utils/areas" style={[styles.button, styles.lightBlueButton]}>
         <Ionicons name="play" size={24} color="white" />
         <ThemedText style={styles.buttonText}>Calculadora de areas</ThemedText>
       </Link>
 
-      <Link href="Otro juego más" style={[styles.button, styles.lightGreenButton]}>
+      <Link href="utils/trigonometry" style={[styles.button, styles.lightGreenButton]}>
         <Ionicons name="play" size={24} color="white" />
-        <ThemedText style={styles.buttonText}>Otro util más</ThemedText>
+        <ThemedText style={styles.buttonText}>Calculadora de razones trigonometricas</ThemedText>
       </Link>
     </ThemedView>
   );

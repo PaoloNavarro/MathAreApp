@@ -6,8 +6,6 @@ import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator, useColorScheme } from 'react-native';
 
-const idJuego = "juegoA1";
-
 interface LogroCompleto {
   id_logro: string;
   descripcion: string;
@@ -19,7 +17,11 @@ interface Logro {
   id_Game: string;
 }
 
-const AdivinaL: React.FC = () => {
+interface LogroGameProps {
+  idJuego: string;
+}
+
+const LogroGame: React.FC<LogroGameProps> = ({ idJuego }) => {
   const { user } = useAuth();
   const [logrosCompletos, setLogrosCompletos] = useState<LogroCompleto[]>([]);
   const [logrosDisponibles, setLogrosDisponibles] = useState<Logro[]>([]);
@@ -44,7 +46,7 @@ const AdivinaL: React.FC = () => {
     };
 
     cargarDatos();
-  }, [user]); 
+  }, [user, idJuego]); 
 
   const cardBackgroundColor = colorScheme === 'dark' ? 'black' : 'white';
   const cardBorderColor = colorScheme === 'dark' ? 'white' : 'black';
@@ -78,4 +80,4 @@ const AdivinaL: React.FC = () => {
   );
 };
 
-export default AdivinaL;
+export default LogroGame;

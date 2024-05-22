@@ -11,6 +11,7 @@ import { showToastMessage } from '@/components/showToastMessage';
 import Toast from 'react-native-toast-message';
 import StaticView from '@/components/StaticView';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
+import { cardStyles } from '@/styles/cardStyles';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -44,6 +45,7 @@ const LoginScreen = () => {
 
   return (
     <StaticView>
+      <ThemedView style={cardStyles.card}>
       <ThemedText type="title">Inicio de sesión</ThemedText>
       <ThemedView style={styles.container}>
         <ThemedTextInput
@@ -71,6 +73,8 @@ const LoginScreen = () => {
           <ThemedText type="link">Registrate</ThemedText>
         </Link>
       </ThemedView>
+      </ThemedView>
+      
       <Toast />
     </StaticView>
   );

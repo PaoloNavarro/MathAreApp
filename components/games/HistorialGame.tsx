@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { StyleSheet, ActivityIndicator } from 'react-native';
 import { useAuth } from '@/contexts/AuthContext';
-import { obtenerHistorialPorUsuario } from '@/scripts/Firabase/juegoService';
+import { obtenerHistorialPorUsuarioYJuego } from '@/scripts/Firabase/juegoService';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { useColorScheme } from 'react-native';
 
-const idJuego = "juegoA1";
-
 interface Historial {
   id: string;
   id_Usuario: string;
-  results: {
-    intentos: number;
-    tiempo: number;
-    exitoso: boolean;
-    fecha: string;
+  results: any;
+}
+
+interface HistorialGameProps {
+  idJuego: string;
+  resultConfig: {
+    fields: string[];
+    labels: string[];
   };
 }
 
-const AdivinaH: React.FC = () => {
+const HistorialGame: React.FC<HistorialGameProps> = ({ idJuego, resultConfig }) => {
   const { user } = useAuth();
   const [historial, setHistorial] = useState<Historial[]>([]);
   const [cargando, setCargando] = useState<boolean>(true);
@@ -28,8 +29,9 @@ const AdivinaH: React.FC = () => {
   useEffect(() => {
     const cargarHistorial = async () => {
       try {
+    
         setCargando(true);
-        const historialUsuario = await obtenerHistorialPorUsuario(user?.uid);
+        const historialUsuario = await obtenerHistorialPorUsuarioYJuego(user?.uid, idJuego);
         setHistorial(historialUsuario);
         setCargando(false);
       } catch (error) {
@@ -39,7 +41,7 @@ const AdivinaH: React.FC = () => {
     };
 
     cargarHistorial();
-  }, [user]); // Agrega user como dependencia para que se vuelva a cargar cuando cambie
+  }, [user, idJuego]);
 
   // Filtrar solo las últimas 10 entradas del historial
   const ultimas10Historias = historial.slice(-10);
@@ -48,7 +50,7 @@ const AdivinaH: React.FC = () => {
   const cardBorderColor = colorScheme === 'dark' ? 'white' : 'black';
 
   return (
-    <ThemedView  style={[styles.card, { backgroundColor: cardBackgroundColor, borderColor: cardBorderColor }]}>
+    <ThemedView style={[styles.card, { backgroundColor: cardBackgroundColor, borderColor: cardBorderColor }]}>
       {cargando ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : historial.length === 0 ? (
@@ -56,17 +58,19 @@ const AdivinaH: React.FC = () => {
       ) : (
         <>
           <ThemedView style={styles.header}>
-            <ThemedText style={styles.headerText}>Intentos</ThemedText>
-            <ThemedText style={styles.headerText}>Tiempo</ThemedText>
-            <ThemedText style={styles.headerText}>Éxito</ThemedText>
-            <ThemedText style={styles.headerText}>Fecha</ThemedText>
+            {resultConfig.labels.map((label, index) => (
+              <ThemedText key={index} style={styles.headerText}>{label}</ThemedText>
+            ))}
           </ThemedView>
           {ultimas10Historias.map((historia) => (
             <ThemedView key={historia.id} style={styles.row}>
-              <ThemedText style={styles.cell}>{historia.results.intentos}</ThemedText>
-              <ThemedText style={styles.cell}>{historia.results.tiempo}</ThemedText>
-              <ThemedText style={styles.cell}>{historia.results.exitoso ? 'Sí' : 'No'}</ThemedText>
-              <ThemedText style={styles.cell}>{historia.results.fecha}</ThemedText>
+              {resultConfig.fields.map((field, index) => (
+                <ThemedText key={index} style={styles.cell}>
+                  {typeof historia.results[field] === 'boolean'
+                    ? historia.results[field] ? 'Sí' : 'No'
+                    : historia.results[field]}
+                </ThemedText>
+              ))}
             </ThemedView>
           ))}
         </>
@@ -100,7 +104,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: 'bold',
-    marginRight:10,
+    marginRight: 10,
   },
   row: {
     flexDirection: 'row',
@@ -108,8 +112,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     paddingVertical: 5,
-    marginRight:10,
-
+    marginRight: 10,
   },
   cell: {
     flex: 1,
@@ -117,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AdivinaH;
+export default HistorialGame;

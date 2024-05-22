@@ -52,15 +52,17 @@ export default function RootLayout() {
           {/* Rutas sin proteger */}
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="registerScreen" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{
-                headerShown: false,
-              }} />
-            <Stack.Screen name="+not-found" />
-            <Stack.Screen name="games/adivina" options={{
-                title: 'My home',
-                headerShown: false,
-              
-              }} />
+          <Stack.Screen name="(tabs)" options={{headerShown: false,}} />
+          <Stack.Screen name="+not-found" />
+          {/*Rustas de juegos */}
+          <Stack.Screen name="games/adivina" options={{headerShown: false}} />
+          <Stack.Screen name="games/acierta" options={{headerShown: false}} />
+
+          {/*Rustas de utilidades */}
+          <Stack.Screen name="utils/conversor" options={{headerShown: false}} />
+          <Stack.Screen name="utils/areas" options={{headerShown: false}} />
+          <Stack.Screen name="utils/trigonometry" options={{headerShown: false}} />
+
 
           {/* Rutas protegidas }
           <ProtectedRoute>

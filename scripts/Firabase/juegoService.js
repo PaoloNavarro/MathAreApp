@@ -45,9 +45,11 @@ export const agregarLogro = async (logro) => {
 };
 
 // Método para obtener el historial de juegos de un usuario
-export const obtenerHistorialPorUsuario = async (id_usuario) => {
+export const obtenerHistorialPorUsuarioYJuego = async (id_usuario, id_juego) => {
   try {
-    const q = query(gamesHistoryRef, where('id_users', '==', id_usuario));
+    const q = query(gamesHistoryRef, 
+                    where('id_users', '==', id_usuario), 
+                    where('id_Game', '==', id_juego));
     const querySnapshot = await getDocs(q);
     const historial = [];
     querySnapshot.forEach((doc) => {
@@ -55,10 +57,11 @@ export const obtenerHistorialPorUsuario = async (id_usuario) => {
     });
     return historial;
   } catch (error) {
-    console.error('Error obteniendo historial de juegos por usuario', error);
+    console.error('Error obteniendo historial de juegos por usuario y juego', error);
     return [];
   }
 };
+
 
 
 
