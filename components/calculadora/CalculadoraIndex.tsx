@@ -1,4 +1,4 @@
-import {  StyleSheet,SafeAreaView,useColorScheme   } from 'react-native';
+import {  StyleSheet,useColorScheme   } from 'react-native';
 import React, { useState } from 'react';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -7,10 +7,9 @@ import { ThemedView } from '@/components/ThemedView';
 import  Button  from '@/components/calculadora/Button';
 import Row from '@/components/calculadora/Row';
 import { calculator,initialState } from '@/scripts/calculadora/calculator';
-import StaticView from '@/components/StaticView';
 
 
-export default function calculadoraScreen() {
+export default function CalculadoraIndex() {
   const [state, setState] = useState(initialState);
   const colorScheme = useColorScheme();
 

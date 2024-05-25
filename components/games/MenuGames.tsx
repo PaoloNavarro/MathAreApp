@@ -4,21 +4,31 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { Link } from 'expo-router';
+import { Collapsible } from '@/components/Collapsible';
 
 interface MenuGamesProps {
   title: string;
   playComponent: React.ReactNode;
   historialComponent: React.ReactNode;
   achievementsComponent: React.ReactNode;
+  indicaciones: string;
 }
 
-const MenuGames: React.FC<MenuGamesProps> = ({ title, playComponent, historialComponent, achievementsComponent }) => {
+const MenuGames: React.FC<MenuGamesProps> = ({ title, playComponent, historialComponent, achievementsComponent, indicaciones }) => {
   const [activeMenu, setActiveMenu] = useState<'play' | 'historial' | 'achievements'>('play');
 
   const renderActiveComponent = () => {
     switch (activeMenu) {
       case 'play':
-        return playComponent;
+        return (
+          <>
+            <Collapsible title="Instrucciones">
+              <ThemedText type="default">{indicaciones}</ThemedText>
+            </Collapsible>
+            {playComponent}
+          </>
+        );
       case 'historial':
         return historialComponent;
       case 'achievements':
@@ -32,6 +42,9 @@ const MenuGames: React.FC<MenuGamesProps> = ({ title, playComponent, historialCo
     <ParallaxScrollView>
       <ThemedView style={styles.container}>
         <ThemedText type='title' style={styles.title}>{title}</ThemedText>
+        <Link href="/gamesScreen">
+          <ThemedText type="link">Regresa al menu</ThemedText>
+        </Link>
         <View style={styles.menu}>
           <TouchableOpacity
             style={[styles.button, { backgroundColor: '#5cb85c' }]}

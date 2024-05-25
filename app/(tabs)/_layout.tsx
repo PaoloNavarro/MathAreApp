@@ -15,11 +15,11 @@ export default function TabLayout() {
         headerShown: false,
       }}>
       <Tabs.Screen
-        name="indexT"
+        name="calculadoraScreen"
         options={{
           title: 'Calculadora',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon name={focused ? 'calculator' : 'calculator-outline'} color={color} />
           ),
         }}
       />
@@ -41,12 +41,22 @@ export default function TabLayout() {
         ),
       }}
       />
+      
       <Tabs.Screen
       name="aboutScreen"
       options={{
         title: 'Sobre Nosotros ',
         tabBarIcon: ({ color, focused }) => (
           <TabBarIcon name={focused ? 'information-circle' : 'information-circle-outline'} color={color} />
+        ),
+      }}
+      />
+      <Tabs.Screen
+      name="profileScreen"
+      options={{
+        title: 'Mi perfil ',
+        tabBarIcon: ({ color, focused }) => (
+          <TabBarIcon name={focused ? 'person-circle' : 'person-circle-outline'} color={color} />
         ),
       }}
       />

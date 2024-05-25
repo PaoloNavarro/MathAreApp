@@ -6,16 +6,17 @@ import LogroGame from '@/components/games/LogroGame';
 import {resultConfigAcierta} from '@/constants/games/constants/resultsCofig'
   
 const idJuego = "juegoA2"
+const indicaciones = "Acierta la mayor cantidad de operaraciones aritmeticas, en el tiempo que selecciones.";
 
 const AciertaScreen: React.FC = () => {
   return (
     <MenuGames
-      title="Adivina el número!!!"
-      playComponent={<AciertaJ />}
-      historialComponent={<HistorialGame idJuego={idJuego} resultConfig={resultConfigAcierta} />    }
-      achievementsComponent={<LogroGame idJuego={idJuego} />
-    }
-    />
+    title="Acierta la operación!!!"
+    playComponent={<AciertaJ />}
+    historialComponent={<HistorialGame idJuego={idJuego} resultConfig={resultConfigAcierta} />}
+    achievementsComponent={<LogroGame idJuego={idJuego} />}
+    indicaciones={indicaciones} // Agregamos el prop indicaciones aquí
+  />
   );
 };
 

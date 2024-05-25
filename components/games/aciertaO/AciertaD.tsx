@@ -5,15 +5,16 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
 import { showToastMessage } from '@/components/showToastMessage';
 import Toast from 'react-native-toast-message';
-import { useColorScheme } from 'react-native';
+import useCardColors from '@/constants/CardColors';
 
 interface AciertaDProps {
   onStartGame: (timeLimit: number) => void;
 }
 
 const AciertaD: React.FC<AciertaDProps> = ({ onStartGame }) => {
+  const { cardBackgroundColor, cardBorderColor } = useCardColors();
+
   const [timeLimit, setTimeLimit] = useState<string>('60');
-  const colorScheme = useColorScheme();
 
   const handleStartGame = () => {
     if (timeLimit.trim() === '') {
@@ -28,8 +29,6 @@ const AciertaD: React.FC<AciertaDProps> = ({ onStartGame }) => {
     setTimeLimit(cleanText);
   };
 
-  const cardBackgroundColor = colorScheme === 'dark' ? 'black' : 'white';
-  const cardBorderColor = colorScheme === 'dark' ? 'white' : 'black';
 
   return (
     <ThemedView style={[styles.card, { backgroundColor: cardBackgroundColor, borderColor: cardBorderColor }]}>

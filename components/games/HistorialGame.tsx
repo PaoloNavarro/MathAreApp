@@ -4,13 +4,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { obtenerHistorialPorUsuarioYJuego } from '@/scripts/Firabase/juegoService';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { useColorScheme } from 'react-native';
+import useCardColors from '@/constants/CardColors';
 
-interface Historial {
-  id: string;
-  id_Usuario: string;
-  results: any;
-}
 
 interface HistorialGameProps {
   idJuego: string;
@@ -22,18 +17,20 @@ interface HistorialGameProps {
 
 const HistorialGame: React.FC<HistorialGameProps> = ({ idJuego, resultConfig }) => {
   const { user } = useAuth();
-  const [historial, setHistorial] = useState<Historial[]>([]);
+  const [historial, setHistorial] = useState<HistorialJuego[]>([]);
   const [cargando, setCargando] = useState<boolean>(true);
-  const colorScheme = useColorScheme();
+  const { cardBackgroundColor, cardBorderColor } = useCardColors();
 
   useEffect(() => {
     const cargarHistorial = async () => {
       try {
-    
-        setCargando(true);
-        const historialUsuario = await obtenerHistorialPorUsuarioYJuego(user?.uid, idJuego);
-        setHistorial(historialUsuario);
-        setCargando(false);
+        if (user) {
+          setCargando(true);
+          const historialUsuario = await obtenerHistorialPorUsuarioYJuego(user.uid, idJuego);
+          setHistorial(historialUsuario);
+          setCargando(false);
+        }
+      
       } catch (error) {
         console.error('Error cargando historial:', error);
         setCargando(false);
@@ -46,8 +43,7 @@ const HistorialGame: React.FC<HistorialGameProps> = ({ idJuego, resultConfig }) 
   // Filtrar solo las últimas 10 entradas del historial
   const ultimas10Historias = historial.slice(-10);
 
-  const cardBackgroundColor = colorScheme === 'dark' ? 'black' : 'white';
-  const cardBorderColor = colorScheme === 'dark' ? 'white' : 'black';
+  
 
   return (
     <ThemedView style={[styles.card, { backgroundColor: cardBackgroundColor, borderColor: cardBorderColor }]}>

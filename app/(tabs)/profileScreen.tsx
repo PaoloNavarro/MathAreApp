@@ -1,9 +1,10 @@
-import React from 'react'
+import ProfileComponent from '@/components/users/ProfileComponent';
+import React from 'react';
 
-function profileScreen() {
+const ProfileScreen:React.FC = () => {
+ 
   return (
-    <div>profileScreen</div>
-  )
+   <ProfileComponent/>
+  );
 }
-
-export default profileScreen
+export default ProfileScreen

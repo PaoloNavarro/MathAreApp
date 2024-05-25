@@ -1,9 +1,3 @@
-export interface CalculatorState {
-    currentValue: string;
-    operator: string | null;
-    previousValue: string | null;
-  }
-  
   export const initialState: CalculatorState = {
     currentValue: "0",
     operator: null,

@@ -5,8 +5,7 @@ import React, { useState } from 'react';
 import { Button, StyleSheet } from 'react-native';
 import { showToastMessage } from '@/components/showToastMessage';
 import Toast from 'react-native-toast-message';
-import { useThemeColor } from '@/hooks/useThemeColor';
-import { useColorScheme } from 'react-native';
+import useCardColors from '@/constants/CardColors';
 
 interface AdivinaDProps {
   onStartGame: (maxRange: number, timeLimit: number) => void;
@@ -15,7 +14,7 @@ interface AdivinaDProps {
 const AdivinaD: React.FC<AdivinaDProps> = ({ onStartGame }) => {
   const [maxRange, setMaxRange] = useState<string>('100');
   const [timeLimit, setTimeLimit] = useState<string>('60');
-  const colorScheme = useColorScheme();
+  const { cardBackgroundColor, cardBorderColor } = useCardColors();
 
   const handleStartGame = () => {
     if (maxRange.trim() === '' && timeLimit.trim() === '') {
@@ -39,8 +38,6 @@ const AdivinaD: React.FC<AdivinaDProps> = ({ onStartGame }) => {
     setTimeLimit(cleanText);
   };
 
-  const cardBackgroundColor = colorScheme === 'dark' ? 'black' : 'white';
-  const cardBorderColor = colorScheme === 'dark' ? 'white' : 'black';
 
   return (
     <ThemedView style={[styles.card, { backgroundColor: cardBackgroundColor, borderColor: cardBorderColor }]}>

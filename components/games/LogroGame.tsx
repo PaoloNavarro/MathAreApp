@@ -4,18 +4,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { buscarLogrosCompletosPorUsuarioYJuego, obtenerLogrosPorJuego } from '@/scripts/Firabase/juegoService';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
-import { ActivityIndicator, useColorScheme } from 'react-native';
-
-interface LogroCompleto {
-  id_logro: string;
-  descripcion: string;
-}
-
-interface Logro {
-  id: string;
-  description: string;
-  id_Game: string;
-}
+import { ActivityIndicator } from 'react-native';
+import useCardColors from '@/constants/CardColors';
 
 interface LogroGameProps {
   idJuego: string;
@@ -23,10 +13,10 @@ interface LogroGameProps {
 
 const LogroGame: React.FC<LogroGameProps> = ({ idJuego }) => {
   const { user } = useAuth();
-  const [logrosCompletos, setLogrosCompletos] = useState<LogroCompleto[]>([]);
+  const [logrosCompletos, setLogrosCompletos] = useState<Logro[]>([]);
   const [logrosDisponibles, setLogrosDisponibles] = useState<Logro[]>([]);
   const [cargando, setCargando] = useState<boolean>(true);
-  const colorScheme = useColorScheme();
+  const { cardBackgroundColor, cardBorderColor } = useCardColors();
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -48,8 +38,6 @@ const LogroGame: React.FC<LogroGameProps> = ({ idJuego }) => {
     cargarDatos();
   }, [user, idJuego]); 
 
-  const cardBackgroundColor = colorScheme === 'dark' ? 'black' : 'white';
-  const cardBorderColor = colorScheme === 'dark' ? 'white' : 'black';
 
   return (
     <ThemedView style={{ padding: 20, borderRadius: 10, elevation: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, margin: 20, backgroundColor: cardBackgroundColor, borderColor: cardBorderColor, borderWidth: 1 }}>
@@ -64,7 +52,7 @@ const LogroGame: React.FC<LogroGameProps> = ({ idJuego }) => {
           {logrosCompletos.map((logro, index) => (
             <ThemedView key={index} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
               <Ionicons name="medal" size={24} color="gold" style={{ marginRight: 10 }} />
-              <ThemedText>{logro.descripcion}</ThemedText>
+              <ThemedText>{logro.description}</ThemedText>
             </ThemedView>
           ))}
           <ThemedText type='subtitle' style={{marginTop:10, marginBottom: 10}}>Logros Disponibles</ThemedText>

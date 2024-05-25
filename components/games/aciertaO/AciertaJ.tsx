@@ -9,16 +9,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import { showToastMessage } from '@/components/showToastMessage';
 import AciertaD from './AciertaD';
 import { obtenerLogrosPorJuego, agregarLogro, agregarHistorialJuego, verificarLogroCompletoPorUsuarioYLogro } from '@/scripts/Firabase/juegoService';
+import useCardColors from '@/constants/CardColors';
 
 const idJuego = "juegoA2";
 
-interface Logro {
-  id: string;
-  description: string;
-  id_Game: string;
-}
-
 const AciertaJ: React.FC = () => {
+  const { cardBackgroundColor, cardBorderColor } = useCardColors();
   const { user } = useAuth();
   const [number, setNumber] = useState('');
   const [operation, setOperation] = useState('');
@@ -29,8 +25,9 @@ const AciertaJ: React.FC = () => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [showDifficultySelection, setShowDifficultySelection] = useState(true);
   const [isGameActive, setIsGameActive] = useState(false);
-  const colorScheme = useColorScheme();
   const [logros, setLogros] = useState<Logro[]>([]);
+  const [totalAttempts, setTotalAttempts] = useState(0); // Nuevo estado
+  const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0); // Nuevo estado
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -118,10 +115,12 @@ const AciertaJ: React.FC = () => {
     if (guessedNumber === correctAnswer) {
       setMessage('¡Correcto!');
       setCorrectAnswers(correctAnswers + 1);
+      setTotalCorrectAnswers(totalCorrectAnswers + 1); // Actualizar total de respuestas correctas
       generateOperation();
     } else {
       setMessage('Incorrecto, intenta de nuevo.');
     }
+    setTotalAttempts(totalAttempts + 1); // Actualizar total de intentos
     setNumber('');
   };
 
@@ -139,7 +138,7 @@ const AciertaJ: React.FC = () => {
         results: resultado,
       }).then(() => {
         const promesasLogros = logros.map((logro) => {
-          return verificarLogroCompletoPorUsuarioYLogro(user.uid, logro.id).then((logroCompletado) => {
+          return verificarLogroCompletoPorUsuarioYLogro(user.uid, logro.id_logro).then((logroCompletado) => {
             if (!logroCompletado) {
               let logroCumplido = false;
               switch (logro.description) {
@@ -158,9 +157,10 @@ const AciertaJ: React.FC = () => {
               }
 
               if (logroCumplido) {
+          
                 return agregarLogro({
                   id_game: idJuego,
-                  id_logro: logro.id,
+                  id_logro: logro.id_logro,
                   id_user: user.uid,
                 }).then(() => {
                   return logro.description;
@@ -195,11 +195,12 @@ const AciertaJ: React.FC = () => {
   };
 
   const restartGame = () => {
+    setTotalAttempts(0); 
+    setTotalCorrectAnswers(0);
     setShowDifficultySelection(true);
   };
 
-  const cardBackgroundColor = colorScheme === 'dark' ? 'black' : 'white';
-  const cardBorderColor = colorScheme === 'dark' ? 'white' : 'black';
+
 
   return (
     <ThemedView>
@@ -207,6 +208,8 @@ const AciertaJ: React.FC = () => {
         <AciertaD onStartGame={handleStartGame} />
       ) : (
         <ThemedView style={[styles.card, { backgroundColor: cardBackgroundColor, borderColor: cardBorderColor }]}>
+          <ThemedText>{`Total de intentos: ${totalAttempts}`}</ThemedText>
+          <ThemedText>{`Total de respuestas correctas:  ${totalCorrectAnswers}`}</ThemedText>
           <ThemedText type='title'>Tiempo restante en segundos:</ThemedText>
           <ThemedText>{time}</ThemedText>
 

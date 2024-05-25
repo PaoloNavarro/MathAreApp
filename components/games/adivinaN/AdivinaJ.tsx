@@ -4,19 +4,13 @@ import AdivinaD from './AdivinaD';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
-import { useColorScheme } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { obtenerLogrosPorJuego, agregarLogro, agregarHistorialJuego,verificarLogroCompletoPorUsuarioYLogro } from '@/scripts/Firabase/juegoService';
 import { useAuth } from '@/contexts/AuthContext';
 import { showToastMessage } from '@/components/showToastMessage';
+import useCardColors from '@/constants/CardColors'; 
 
 const idJuego = "juegoA1";
-
-interface Logro {
-  id: string;
-  description: string;
-  id_Game: string;
-}
 
 const AdivinaJ: React.FC = () => {
   const { user } = useAuth();
@@ -28,11 +22,11 @@ const AdivinaJ: React.FC = () => {
   const [guessed, setGuessed] = useState(false);
   const [showDifficultySelection, setShowDifficultySelection] = useState(true);
   const [originalTime, setOriginalTime] = useState(0);
-  const colorScheme = useColorScheme();
   const [logros, setLogros] = useState<Logro[]>([]);
   const [isGameActive, setIsGameActive] = useState(false);
+  const { cardBackgroundColor, cardBorderColor } = useCardColors();
 
-  useEffect(() => {
+  useEffect(() => { 
     let timer: NodeJS.Timeout;
     if (isGameActive && time > 0 && !guessed) {
       timer = setInterval(() => {
@@ -106,7 +100,7 @@ const AdivinaJ: React.FC = () => {
         // Iterar sobre todos los logros independientemente del éxito del juego
         const promesasLogros = logros.map((logro) => {
           // Verificar si el usuario ya ha completado este logro
-          return verificarLogroCompletoPorUsuarioYLogro(user.uid, logro.id).then((logroCompletado) => {
+          return verificarLogroCompletoPorUsuarioYLogro(user.uid, logro.id_logro).then((logroCompletado) => {
             if (!logroCompletado) {
               let logroCumplido = false;
               switch (logro.description) {
@@ -127,7 +121,7 @@ const AdivinaJ: React.FC = () => {
               if (logroCumplido) {
                 return agregarLogro({
                   id_game: idJuego,
-                  id_logro: logro.id,
+                  id_logro: logro.id_logro,
                   id_user: user.uid,
                 }).then(() => {
                   return logro.description; // Devolver la descripción del logro para mostrar el toast
@@ -168,8 +162,7 @@ const AdivinaJ: React.FC = () => {
     setShowDifficultySelection(true);
   };
 
-  const cardBackgroundColor = colorScheme === 'dark' ? 'black' : 'white';
-  const cardBorderColor = colorScheme === 'dark' ? 'white' : 'black';
+
 
   return (
     <ThemedView >

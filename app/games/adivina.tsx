@@ -6,6 +6,8 @@ import LogroGame from '@/components/games/LogroGame';
 import {resultConfigAdivina} from '@/constants/games/constants/resultsCofig'
 
 const idJuego="juegoA1";
+const indicaciones = "Adivina el numero en el rango y tiempo que selecciones.";
+
 const AdivinaScreen: React.FC = () => {
   return (
     <MenuGames
@@ -13,6 +15,7 @@ const AdivinaScreen: React.FC = () => {
       playComponent={<AdivinaJ />}
       historialComponent={<HistorialGame idJuego={idJuego} resultConfig={resultConfigAdivina} />}
       achievementsComponent={<LogroGame idJuego={idJuego} />}
+      indicaciones={indicaciones}
     />
   );
 };
