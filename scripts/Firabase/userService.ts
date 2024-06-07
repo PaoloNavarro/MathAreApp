@@ -3,9 +3,8 @@ import {  query,where, getDocs,collection} from 'firebase/firestore';
 
 // Obtener la referencia al documento del usuario por su correo electrónico
 const userRef = collection(db,'users')
-
-// Método para obtener un usuario por su dirección de correo electrónico
 export const getUsersByEmail = async (email: string): Promise<UserInfo | null> => {
+    const start = Date.now(); // Obtener el tiempo de inicio
     try {
         // Obtener la colección de usuarios
         const usersCollectionRef = collection(db, 'users');
@@ -21,9 +20,13 @@ export const getUsersByEmail = async (email: string): Promise<UserInfo | null> =
             // Como el email debería ser único, solo debería haber un documento
             // Obtener el primer documento de la lista
             const userData = querySnapshot.docs[0].data() as UserInfo;
+            const end = Date.now(); // Obtener el tiempo de finalización
+            console.log('getUsersByEmail time:', end - start, 'milliseconds'); // Imprimir el tiempo transcurrido
             return userData;
         } else {
             // Si no se encontró ningún documento, retornar null
+            const end = Date.now(); // Obtener el tiempo de finalización
+            console.log('getUsersByEmail time:', end - start, 'milliseconds'); // Imprimir el tiempo transcurrido
             return null;
         }
     } catch (error) {

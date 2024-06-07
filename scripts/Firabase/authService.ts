@@ -1,5 +1,6 @@
 // authService.ts
 import { auth, db } from '../../firebaseConfig';
+
 import { 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
@@ -10,25 +11,26 @@ import {
   doc, 
   setDoc 
 } from 'firebase/firestore';
-
-
 export const login = async (email: string, password: string): Promise<void> => {
+  const start = Date.now();
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    const end = Date.now();
+    console.log('Login time:', end - start, 'milliseconds');
   } catch (error) {
     console.error('Login error', error);
-    throw error; // Arroja el error para que pueda ser manejado por el llamador
+    throw error;
   }
 };
 
 export const register = async (userInfo: UserInfo, password: string): Promise<void> => {
+  const start = Date.now();
   try {
-    // Registrar el usuario en Firebase Authentication
     const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, userInfo.email, password);
     const user = userCredential.user;
-
-    // Guardar información adicional en Firestore
     await setDoc(doc(db, 'users', user.uid), userInfo);
+    const end = Date.now();
+    console.log('Registration time:', end - start, 'milliseconds');
   } catch (error) {
     console.error('Registration error', error);
     throw error;
@@ -36,10 +38,13 @@ export const register = async (userInfo: UserInfo, password: string): Promise<vo
 };
 
 export const logout = async (): Promise<void> => {
+  const start = Date.now();
   try {
     await signOut(auth);
+    const end = Date.now();
+    console.log('Logout time:', end - start, 'milliseconds');
   } catch (error) {
     console.error('Logout error', error);
-    throw error; // Arroja el error para que pueda ser manejado por el llamador
+    throw error;
   }
 };

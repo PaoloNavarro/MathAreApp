@@ -67,7 +67,6 @@ const AreaComponent: React.FC = () => {
     return (
       <ThemedView style={[styles.loding, { backgroundColor: cardBackgroundColor, borderColor: cardBorderColor }]}>
           <ActivityIndicator size="large" color="#0000ff" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />
-
       </ThemedView>
 
     );
